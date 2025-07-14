@@ -22,3 +22,4 @@ This is a **full-stack finance management website** designed to help users track
 - **Backend**: PHP
 - **Database**: MySQL
 - **File Handling**: PHP for PDF extraction and database interaction
+-
