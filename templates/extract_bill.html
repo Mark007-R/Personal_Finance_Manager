@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Bill Amount from PDF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            padding: 40px;
+            text-align: center;
+            background-color: #e9f7ef;
+            color: #2e7d32;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #388e3c;
+            font-size: 2.5em;
+        }
+
+        form {
+            margin-bottom: 30px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 1.5em;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 500px;
+        }
+
+        .error {
+            color: #d32f2f;
+            font-size: 1.2em;
+        }
+
+        .debug {
+            margin-top: 30px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            white-space: pre-wrap;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Extract Bill Amount from PDF</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf" accept=".pdf" required>
+        <button type="submit">Upload PDF</button>
+        <button><a href="/" style="text-decoration: none; color:white">Home</a></button>
+    </form>
+    <div id="result">
+        {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+        {% else %}
+        <p>Bill Amount: ₹{{ bill_amount }}</p>
+        <p>Bill Date: {{ bill_date }}</p>
+        {% endif %}
+    </div>
+    {% if debug_text %}
+    <div class="debug">
+        <h2>Extracted Text</h2>
+        <pre>{{ debug_text }}</pre>
+    </div>
+    {% endif %}
+</body>
+
+</html>

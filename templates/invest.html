@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Investment Options</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='invest.css') }}">
+</head>
+
+<body>
+    <h1>Available Investment Options</h1>
+    <h2>Total Balance: ₹{{ '{:,.2f}'.format(total_balance or 0.0) }}</h2>
+
+    <div class="container">
+        {% if options %}
+        {% for option in options %}
+        <div class="option-card">
+            <div class="option-header">
+                <h3>{{ option.scheme_name or option.bond_type or option.bank_name or option.plan_name or option.BankName
+                    }}</h3>
+                <span class="type">{{ option.type }}</span>
+            </div>
+            <ul>
+                <li><strong>Bank Name:</strong> {{ option.bank_name or option.BankName or 'N/A' }}</li>
+                <li><strong>Min Investment:</strong> ₹{{ '{:,.2f}'.format(option.min_investment or
+                    option.minimum_investment or option.premium_range or option.CurrentPrice or 0) }}</li>
+
+                {% if option.interest_rate %}
+                <li><strong>Interest Rate:</strong> {{ option.interest_rate }}%</li>
+                <li><strong>Tenure:</strong> {{ option.tenure_range }}</li>
+                {% elif option.coupon_rate %}
+                <li><strong>Coupon Rate:</strong> {{ option.coupon_rate }}%</li>
+                <li><strong>Risk Level:</strong> {{ option.risk_level }}</li>
+                {% elif option.CurrentPrice %}
+                <li><strong>Current Price:</strong> ₹{{ '{:,.2f}'.format(option.CurrentPrice) }}</li>
+                <li><strong>Market Cap:</strong> ₹{{ '{:,.2f}'.format(option.MarketCap) }}</li>
+                {% elif option.coverage_options %}
+                <li><strong>Coverage Options:</strong> {{ option.coverage_options }}</li>
+                <li><strong>Policy Tenure:</strong> {{ option.policy_tenure }}</li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No suitable investment options found for your balance.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="button">Home</a>
+
+</body>
+
+</html>

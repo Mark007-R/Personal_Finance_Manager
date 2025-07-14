@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        :root {
+            --dark-blue: #363F5F;
+            --green: #49aa26;
+            --light-green: #3dd705;
+            --white: #ffffff;
+            --light-gray: #f0f2f5;
+            --gray: #969cb3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: var(--light-gray);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px;
+            padding: 1rem;
+            width: 100%;
+        }
+
+        .form-container {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--light-gray);
+        }
+
+        .title {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--dark-blue);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 6px rgba(73, 170, 38, 0.3);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            height: 40px;
+            border: none;
+            color: var(--white);
+            background: var(--green);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover,
+        button:focus {
+            background: var(--light-green);
+            transform: scale(1.03);
+        }
+
+        button:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+        }
+
+        .connect-title {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            color: var(--dark-blue);
+            font-size: 1.25rem;
+            margin: 0 0.5rem;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: var(--green);
+        }
+
+        .signup-redirect {
+            text-align: center;
+        }
+
+        .signup-redirect a {
+            color: var(--green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup-redirect a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <section class="login-section">
+            <div class="form-container">
+                <h1 class="title">Login</h1>
+                <form id="login-form" method="post">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password"
+                            autocomplete="off" />
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+
+                <h3 class="connect-title">Connect with</h3>
+                <div class="social-icons">
+                    <a href="#" class="fa fa-facebook"></a>
+                    <a href="#" class="fa fa-twitter"></a>
+                    <a href="#" class="fa fa-google"></a>
+                    <a href="#" class="fa fa-linkedin"></a>
+                </div>
+
+                <p class="signup-redirect">
+                    Don't have an account? <a href="{{ url_for('signup_bp.signup') }}">Sign Up</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('login-form');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch("{{ url_for('login_bp.login') }}", {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('Login successful!');
+                        window.location.href = "{{ url_for('dashboard') }}";  // Replace with your dashboard route
+                    } else {
+                        alert('Login failed: ' + data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById("error-message").innerText = data.message;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

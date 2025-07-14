@@ -1,0 +1,308 @@
+:root {
+    --dark-blue: #2D4A22;
+    --green: #49aa26;
+    --light-green: #3dd705;
+    --red: #e92929;
+    --white: #ffffff;
+    --background: #f5f7f9;
+    --text-color: #606c76;
+    --card-bg: #ffffff;
+    --card-border-radius: 0.5rem;
+    --font-family: 'Poppins', sans-serif;
+    --font-size-base: 15px;
+    --transition: 0.3s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 93.75%;
+}
+
+body {
+    background: var(--background);
+    font-family: var(--font-family);
+    color: var(--dark-blue);
+    line-height: 1.6;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.balance-container {
+    margin-bottom: 2rem;
+}
+
+#balance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem auto;
+}
+
+.card {
+    margin: 0px 10px 0px 20px;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--card-border-radius);
+    color: var(--dark-blue);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow var(--transition), transform var(--transition);
+    width: 100%;
+    max-width: 350px;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.card.total {
+    background: var(--green);
+    color: var(--white);
+}
+
+.card h3 {
+    font-weight: 400;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card p {
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    margin-top: 0.5rem;
+}
+
+/* Header */
+header {
+    background: var(--dark-blue);
+    padding: 1rem 2rem;
+    text-align: center;
+    color: var(--white);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo {
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+#logo img {
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.logout-button {
+    text-decoration: none;
+    background-color: var(--red);
+    color: var(--white);
+    border: 2px solid black;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color var(--transition);
+}
+
+.logout-button:hover {
+    background-color: darkred;
+}
+
+/* Buttons */
+.button {
+    text-decoration: none;
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+    background-color: var(--light-green);
+}
+
+/* Transaction Table */
+#transaction {
+    margin: 1rem 2rem;
+}
+
+#data-table {
+    width: 100%;
+    border-spacing: 0 0.5rem;
+    border-collapse: separate;
+}
+
+table thead tr th {
+    background: #f9f9f9;
+    font-weight: 600;
+    padding: 1rem;
+    color: var(--text-color);
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+table tbody tr {
+    background: var(--card-bg);
+    transition: background-color var(--transition);
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+table tbody td {
+    padding: 1rem;
+}
+
+/* Modal */
+.modal-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+    z-index: 999;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--white);
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Form */
+#form {
+    background: var(--white);
+    border-radius: var(--card-border-radius);
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: auto;
+}
+
+#form h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-bottom: 1.5rem;
+}
+
+#form form input {
+    border: 1px solid #ddd;
+    border-radius: var(--card-border-radius);
+    padding: 0.8rem 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--dark-blue);
+    transition: border-color var(--transition);
+}
+
+#form form input:focus {
+    border-color: var(--green);
+    outline: none;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 1rem;
+    color: var(--dark-blue);
+}
+
+.input-group .help {
+    opacity: 0.7;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.input-group.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-group.actions .button,
+.input-group.actions button {
+    width: 48%;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--card-border-radius);
+    cursor: pointer;
+}
+
+.input-group.actions button {
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+}
+
+.input-group.actions .button.cancel {
+    background-color: var(--white);
+    color: var(--red);
+    border: 2px solid var(--red);
+}
+
+.button.cancel:hover {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+footer {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    color: var(--text-color);
+    font-size: 0.875rem;
+}

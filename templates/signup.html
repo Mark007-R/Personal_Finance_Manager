@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --dark-green: #388E3C;
+            --light-green: #C8E6C9;
+            --white: #ffffff;
+            --light-gray: #f0f2f5;
+            --dark-gray: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 93.75%;
+        }
+
+        body {
+            background: var(--light-gray);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--light-green);
+        }
+
+        .title {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            height: 45px;
+            border: none;
+            color: var(--white);
+            background: var(--primary-green);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        button:hover {
+            background: var(--dark-green);
+            transform: scale(1.03);
+        }
+
+        .connect-title,
+        .login-redirect {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .social-links {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.25rem;
+            margin: 0 0.5rem;
+            text-decoration: none;
+            color: var(--dark-gray);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-green);
+        }
+
+        .login-redirect a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-redirect a:hover {
+            text-decoration: underline;
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <main class="container">
+        <h1 class="title">Sign Up</h1>
+        <form id="signup-form" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required
+                    placeholder="Confirm your password">
+            </div>
+            <div class="form-group">
+                <button type="submit" id="submit-button">Sign Up</button>
+            </div>
+            <div id="form-message" class="form-message"></div>
+        </form>
+
+        <h3 class="connect-title">Connect with us</h3>
+        <div class="social-links">
+            <a href="#" class="fa fa-facebook"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-google"></a>
+            <a href="#" class="fa fa-linkedin"></a>
+        </div>
+
+        <p class="login-redirect">Already have an account? <a href="{{ url_for('login_bp.login') }}">Login here</a></p>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signup-form');
+            const messageDiv = document.getElementById('form-message');
+            const submitButton = document.getElementById('submit-button');
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                messageDiv.textContent = '';
+                submitButton.disabled = true;
+
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch("{{ url_for('signup_bp.signup') }}", {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        messageDiv.textContent = 'Sign up successful! Redirecting to login...';
+                        messageDiv.style.color = 'green';
+                        setTimeout(() => {
+                            window.location.href = "{{ url_for('login_bp.login') }}";
+                        }, 2000);
+                    } else {
+                        messageDiv.textContent = data.message;
+                        messageDiv.style.color = 'red';
+                        submitButton.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    messageDiv.textContent = 'An error occurred. Please try again.';
+                    messageDiv.style.color = 'red';
+                    submitButton.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
