@@ -8,10 +8,10 @@ signup_bp = Blueprint('signup_bp', __name__)
 
 def get_db_connection():
     return pymysql.connect(
-        host=os.getenv('DB_SERVER', 'localhost'),
-        user=os.getenv('DB_USER', 'root'),
-        password=os.getenv('DB_PASS', 'pass123'),
-        database=os.getenv('DB_NAME', 'mydatabase'),
+        host=os.getenv('DB_SERVER'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASS'),
+        database=os.getenv('DB_NAME'),
         cursorclass=pymysql.cursors.DictCursor
     )
 

@@ -8,11 +8,12 @@ import pymysql
 extract_bill_bp = Blueprint(
     'extract_bill_bp', __name__, template_folder='templates')
 
+import os
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'pass123',
-    'database': 'finase'
+    'host': os.getenv('DB_SERVER'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASS'),
+    'database': os.getenv('DB_NAME')
 }
 
 

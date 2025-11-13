@@ -7,10 +7,10 @@ import os
 app = Flask(__name__)
 
 # Database config
-DB_HOST = os.getenv('DB_SERVER', 'localhost')
-DB_USER = os.getenv('DB_USER', 'root')
-DB_PASSWORD = os.getenv('DB_PASS', 'pass123')
-DB_NAME = os.getenv('DB_NAME', 'finase')
+DB_HOST = os.getenv('DB_SERVER')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASS')
+DB_NAME = os.getenv('DB_NAME')
 
 @app.route('/')
 def get_db_connection():

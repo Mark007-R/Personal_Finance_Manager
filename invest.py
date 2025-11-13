@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 import mysql.connector
+import os
 
 # Define Blueprint
 invest_bp = Blueprint('invest_bp', __name__)
@@ -8,10 +9,10 @@ invest_bp = Blueprint('invest_bp', __name__)
 @invest_bp.route('/invest', methods=['GET', 'POST'], endpoint='invest')
 def invest():
     conn = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='pass123',
-        database='finase'
+        host=os.getenv('DB_SERVER', 'localhost'),
+        user=os.getenv('DB_USER', 'root'),
+        password=os.getenv('DB_PASS', 'pass123'),
+        database=os.getenv('DB_NAME', 'finase')
     )
     cursor = conn.cursor(dictionary=True)
 
